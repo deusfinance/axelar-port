@@ -66,7 +66,7 @@ contract Escrow is Initializable, AccessControlEnumerableUpgradeable {
 		emit WithdrawFromPortal(requiredAmount, thresholdAmount);
 	}
 
-	function setThresholdAmount(uint256 _thresholdAmount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+	function setMinThresholdAmount(uint256 _thresholdAmount) external onlyRole(DEFAULT_ADMIN_ROLE) {
 		thresholdAmount = _thresholdAmount;
 
 		emit SetThresholdAmount(_thresholdAmount);
