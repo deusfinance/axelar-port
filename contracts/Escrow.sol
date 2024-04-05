@@ -56,14 +56,14 @@ contract Escrow is Initializable, AccessControlEnumerableUpgradeable {
 		emit DepositToPortal(amount, thresholdAmount);
 	}
 
-	function withdrawFromPortal() external onlyRole(WITHDRAWER_ROLE) {
+	function withdrawExcessDeusFromPortal() external onlyRole(WITHDRAWER_ROLE) {
 		uint256 portalBalance = IERC20(deusAddress).balanceOf(portalAddress);
 		require(portalBalance > thresholdAmount, "Escrow: Portal balance is below the threshold");
 
 		uint256 requiredAmount = portalBalance - thresholdAmount;
 		IPortal(portalAddress).withdraw(requiredAmount, 0);
 
-		emit WithdrawFromPortal(requiredAmount, thresholdAmount);
+		emit withdrawExcessDeusFromPortal(requiredAmount, thresholdAmount);
 	}
 
 	function setThresholdAmount(uint256 _thresholdAmount) external onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -72,9 +72,9 @@ contract Escrow is Initializable, AccessControlEnumerableUpgradeable {
 		emit SetThresholdAmount(_thresholdAmount);
 	}
 
-	function withdrawERC20(address token, uint256 amount) external onlyRole(ASSET_MANAGER_ROLE) {
+	function withdrawDeusOrAxlDeusOrAnyERC20(address token, uint256 amount) external onlyRole(ASSET_MANAGER_ROLE) {
 		IERC20(token).transfer(msigAddress, amount);
 
-		emit WithdrawERC20(token, msigAddress, amount);
+		emit withdrawDeusOrAxlDeusOrAnyERC20(token, msigAddress, amount);
 	}
 }
